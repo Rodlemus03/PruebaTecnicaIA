@@ -1,0 +1,8 @@
+openai>=1.40.0
+python-dotenv>=1.0.1
+numpy>=1.26.0
+flask>=3.0.0
+sentence-transformers>=3.0.0
+torch
+transformers
+tf-keras

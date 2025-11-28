@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}Subir audio – Transcriptor IA{% endblock %}
+
+{% block content %}
+<section class="card">
+  <h1 class="card-title">Sube un archivo de audio</h1>
+  <p class="card-text">
+    Formatos permitidos: <strong>mp3, wav, m4a, ogg, flac</strong>.  
+    El procesamiento se realiza localmente utilizando Whisper.
+  </p>
+
+  <form method="POST" enctype="multipart/form-data" class="form">
+
+    <div class="form-group">
+      <label for="audio_file">Archivo de audio</label>
+      <input
+        type="file"
+        id="audio_file"
+        name="audio_file"
+        accept=".mp3,.wav,.m4a,.ogg,.flac"
+        required
+      >
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="language">Idioma</label>
+        <select id="language" name="language">
+          <option value="es" selected>Español</option>
+          <option value="en">Inglés</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-primary">Transcribir audio</button>
+  </form>
+</section>
+{% endblock %}

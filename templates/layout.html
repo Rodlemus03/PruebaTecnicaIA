@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Transcriptor IA{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div class="logo">🎧 Flamerly IA – Transcriptor</div>
+        <div class="subtitle">Sube tu audio en español y obtén la transcripción</div>
+      </header>
+
+      <main class="app-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-container">
+              {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer class="app-footer">
+        <span>Prueba técnica – Desarrollador IA</span>
+      </footer>
+    </div>
+  </body>
+</html>

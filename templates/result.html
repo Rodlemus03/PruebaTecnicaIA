@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}Resultado de transcripción{% endblock %}
+
+{% block content %}
+<section class="card">
+  <h1 class="card-title">Transcripción generada</h1>
+  <p class="card-meta">
+    Idioma detectado/seleccionado: <strong>{{ language }}</strong>
+  </p>
+
+  <div class="form" style="margin-bottom: 1.5rem;">
+    <form method="POST" action="{{ url_for('search_in_transcript', filename=transcript_file) }}">
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label for="query">Buscar en la transcripción</label>
+          <input
+  type="text"
+  id="query"
+  name="query"
+  value="{{ query or '' }}"
+  placeholder="Escribe una palabra o frase..."
+  required
+  style="padding: 0.6rem 0.75rem; border-radius: 0.6rem;
+         border: 1px solid #4b5563; background: #020617;
+         color: #e5e7eb; font-size: 0.9rem; width: 100%;"
+/>
+
+        </div>
+
+        <div class="form-group" style="min-width: 200px;">
+          <label for="mode">Modo de búsqueda</label>
+          <select id="mode" name="mode">
+            <option value="keyword" {% if mode == "keyword" %}selected{% endif %}>
+              Palabra clave (literal)
+            </option>
+            {% if semantic_enabled %}
+            <option value="semantic" {% if mode == "semantic" %}selected{% endif %}>
+              Semántica (PLUS)
+            </option>
+            {% else %}
+            <option value="semantic" disabled>
+              Semántica no disponible
+            </option>
+            {% endif %}
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" style="margin-top: 0.75rem;">
+        Buscar en la transcripción
+      </button>
+    </form>
+  </div>
+
+  {% if results and query %}
+    <h2 class="card-title" style="font-size: 1.1rem; margin-top: 1rem;">Resultados de búsqueda</h2>
+    <p class="card-text">
+      Modo: <strong>{{ "Palabra clave" if mode == "keyword" else "Semántica (PLUS)" }}</strong> ·
+      Consulta: <strong>"{{ query }}"</strong>
+    </p>
+
+    <div class="transcript-box" style="max-height: 260px; margin-bottom: 1rem;">
+      <ul style="margin: 0; padding-left: 1rem;">
+        {% for r in results %}
+          <li style="margin-bottom: 0.75rem;">
+            {% if r.start is not none and r.end is not none %}
+              <div style="font-size: 0.8rem; color: #9ca3af; margin-bottom: 0.15rem;">
+                [{{ "%.1f"|format(r.start) }}s – {{ "%.1f"|format(r.end) }}s]
+                {% if mode == "semantic" and r.score is not none %}
+                  · score: {{ "%.3f"|format(r.score) }}
+                {% endif %}
+              </div>
+            {% endif %}
+            <div>
+              {{ r.text }}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% elif query %}
+    <p class="card-text">
+      No se encontraron resultados para <strong>"{{ query }}"</strong>.
+    </p>
+  {% endif %}
+
+  <h2 class="card-title" style="font-size: 1.1rem; margin-top: 1.2rem;">Transcripción completa</h2>
+  <div class="transcript-box">
+    <pre>{{ transcript_text }}</pre>
+  </div>
+
+  <div class="actions">
+    <a href="{{ url_for('index') }}" class="btn-secondary">Transcribir otro audio</a>
+    <a href="{{ url_for('view_transcript_file', filename=transcript_file) }}" class="btn-link">
+      Ver JSON de la transcripción
+    </a>
+  </div>
+</section>
+{% endblock %}
