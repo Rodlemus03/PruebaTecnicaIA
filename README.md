@@ -117,12 +117,28 @@ Esta función es opcional y se activa solo si el entorno soporta el modelo.
 
 ---
 
+## Servicio y modelo de ASR utilizados
+
+El sistema utiliza el modelo Whisper en su variante local, ejecutado mediante la librería `openai-whisper`. Whisper es un modelo de reconocimiento automático de voz desarrollado por OpenAI y disponible para uso local sin necesidad de llamadas a una API externa.
+
+Whisper permite realizar transcripciones en español con una precisión adecuada para audios cortos y de buena calidad, cumpliendo correctamente los requerimientos de esta prueba técnica.
+
+### Limitaciones conocidas
+
+- El desempeño puede verse afectado por ruido de fondo, ecos o grabaciones de baja calidad.
+- Los modelos pequeños de Whisper (como `tiny`) priorizan velocidad sobre precisión, lo que puede generar errores en frases complejas.
+- Audios largos requieren más tiempo de procesamiento.
+- No incluye funcionalidades adicionales como diarización (identificación de hablantes) o traducción en esta implementación.
+- La ejecución es local y depende directamente de los recursos disponibles en el equipo.
+
+---
+
 ## Notas técnicas
 
 - FFmpeg se resuelve mediante rutas locales para evitar configuraciones adicionales en el PATH del sistema.
-- Whisper se ejecuta localmente, sin utilizar servicios externos.
-- El tiempo de arranque del servidor se optimiza mediante la carga diferida del modelo de embeddings.
-- La aplicación fue diseñada para ser ejecutada sin configuraciones adicionales, únicamente con `pip install -r requirements.txt`.
+- Whisper se ejecuta localmente y no depende de servicios externos.
+- El sistema utiliza carga diferida del modelo de embeddings para optimizar el tiempo de inicio.
+- La aplicación está diseñada para ejecutarse únicamente con `pip install -r requirements.txt`, sin configuraciones adicionales.
 
 ---
 
@@ -137,12 +153,9 @@ Esta función es opcional y se activa solo si el entorno soporta el modelo.
 
 ## Contacto
 
-Para consultas técnicas sobre esta prueba o su implementación, puede revisar el repositorio o comunicarse mediante los medios proporcionados en la documentación del proyecto.
-correo: rodlemus03@gmail.com
-Número telefónico: 30426422
+Para consultas técnicas sobre esta prueba o su implementación:
+
+Correo: rodlemus03@gmail.com  
+Teléfono: 30426422  
 
 Mauricio Lemus
-
-
-
-
